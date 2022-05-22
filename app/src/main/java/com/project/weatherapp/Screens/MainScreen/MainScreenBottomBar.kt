@@ -24,11 +24,11 @@ fun MainScreenBottomBar(
     modifier: Modifier = Modifier,
     @StringRes measurementResource: Int = R.string.celsius_measurement
 ) {
-    MainScreenBottomBarContent(modifier)
+    MainScreenBottomBarContent(modifier, measurementResource)
 }
 
 @Composable
-private fun MainScreenBottomBarContent(modifier: Modifier) {
+private fun MainScreenBottomBarContent(modifier: Modifier, @StringRes measurementResource: Int) {
     val list = listOf("a", "b", "c", "d", "e", "f", "g")
     Row(
         modifier = modifier
@@ -38,7 +38,7 @@ private fun MainScreenBottomBarContent(modifier: Modifier) {
         horizontalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         for (item in list) {
-            MainScreenBottomBarItem()
+            MainScreenBottomBarItem(measurementResource = measurementResource)
         }
     }
 }

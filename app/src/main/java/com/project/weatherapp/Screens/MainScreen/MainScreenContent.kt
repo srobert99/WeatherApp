@@ -3,8 +3,14 @@ package com.project.weatherapp.Screens.MainScreen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CompareArrows
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -21,7 +27,9 @@ import com.project.weatherapp.R
 
 @Composable
 fun MainScreenContent() {
-    val measurement = stringResource(id = R.string.celsius_measurement)
+    val measurementResource = remember { mutableStateOf(R.string.celsius_measurement) }
+    val measurement = stringResource(id = measurementResource.value)
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -48,14 +56,32 @@ fun MainScreenContent() {
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.size(200.dp)
             )
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("3 $measurement", fontSize = 30.sp, fontWeight = FontWeight.Bold)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(start = 40.dp)
+            ) {
+                Text(
+                    "3 $measurement",
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                IconButton(onClick = {
+                    measurementResource.value = changeMeasurement(measurementResource.value)
+                }) {
+                    Icon(Icons.Filled.CompareArrows, "Switch measurement button")
+                }
             }
         }
         MainScreenBottomBar(modifier = Modifier.align(Alignment.BottomCenter))
     }
 }
 
+private fun changeMeasurement(currentMeasurement: Int): Int =
+    if (currentMeasurement == R.string.celsius_measurement) {
+        R.string.fahrenheit_measurement
+    } else {
+        R.string.celsius_measurement
+    }
 
 @Composable
 @Preview
