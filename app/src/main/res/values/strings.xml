@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">WeatherApp</string>
+
+    <!--Degree measurements-->
+    <string name="celsius_measurement">°C</string>
+    <string name="fahrenheit_measurement">°F</string>
+
+</resources>
