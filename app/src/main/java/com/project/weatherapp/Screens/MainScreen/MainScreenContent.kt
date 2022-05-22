@@ -23,6 +23,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.project.weatherapp.R
+import com.project.weatherapp.commons.CityEditableText
+import com.project.weatherapp.commons.clearFocusOnKeyboardDismiss
 
 
 @Composable
@@ -48,7 +50,9 @@ fun MainScreenContent() {
                 .padding(bottom = 150.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("SIBIU", fontSize = 40.sp, fontWeight = FontWeight.Bold)
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                CityEditableText(modifier = Modifier.clearFocusOnKeyboardDismiss())
+            }
             Text("Sunny", fontSize = 18.sp)
             Image(
                 painter = painterResource(id = R.drawable.sunny_weather_icon),
@@ -72,7 +76,10 @@ fun MainScreenContent() {
                 }
             }
         }
-        MainScreenBottomBar(modifier = Modifier.align(Alignment.BottomCenter))
+        MainScreenBottomBar(
+            modifier = Modifier.align(Alignment.BottomCenter),
+            measurementResource = measurementResource.value
+        )
     }
 }
 
