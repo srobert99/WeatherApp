@@ -29,6 +29,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             navHostController = rememberNavController()
+
             WeatherAppTheme {
                 MainNavigation(mainNavController = navHostController, weatherViewModel)
             }

@@ -20,7 +20,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.project.weatherapp.R
-import com.project.weatherapp.commons.CityEditableText
 
 @Composable
 fun DayWeatherContent() {
@@ -47,7 +46,7 @@ fun DayWeatherContent() {
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-            CityEditableText()
+            Text("SIBIU", fontSize = 25.sp, fontWeight = FontWeight.Bold)
         }
         Text("Sunny", fontSize = 18.sp)
         Image(

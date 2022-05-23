@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.project.weatherapp.R
 import com.project.weatherapp.models.WeekWeatherMock.DayOfWeekWeatherMock
+import com.project.weatherapp.screens.Screen
 
 @Composable
 fun MainScreenBottomBar(
@@ -72,7 +73,7 @@ private fun MainScreenBottomBarItem(
         elevation = 0.dp,
         border = BorderStroke(2.dp, color = Color.White),
         modifier = Modifier
-            .clickable { navController.navigate("DayDescriptionScreen") }
+            .clickable { navController.navigate(Screen.DayWeatherDetailsScreen.route) }
             .width(100.dp)
     ) {
         Column(
