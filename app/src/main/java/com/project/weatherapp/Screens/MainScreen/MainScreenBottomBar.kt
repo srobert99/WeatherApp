@@ -1,11 +1,8 @@
 package com.project.weatherapp.Screens.MainScreen
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -50,7 +47,8 @@ private fun MainScreenBottomBarItem(@StringRes measurementResource: Int = R.stri
     Card(
         backgroundColor = Color.Transparent,
         elevation = 0.dp,
-        border = BorderStroke(2.dp, color = Color.White)
+        border = BorderStroke(2.dp, color = Color.White),
+        modifier = Modifier.clickable {  }
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,

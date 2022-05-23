@@ -6,6 +6,8 @@
         <entry key="app/src/main/res/drawable/celsius_measurement_icon.xml" value="0.1035" />
         <entry key="app/src/main/res/drawable/ic__.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic__7.xml" value="0.1035" />
+        <entry key="app/src/main/res/drawable/temperature_icon.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/wind_icon.xml" value="0.1" />
       </map>
     </option>
   </component>

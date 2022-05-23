@@ -14,7 +14,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun CityEditableText(modifier: Modifier = Modifier, notInit: Boolean = false) {
+fun CityEditableText(
+    modifier: Modifier = Modifier,
+    notInit: Boolean = false,
+    enabled: Boolean = false
+) {
     val text = remember { mutableStateOf("SIBIU") }
     val context = LocalContext.current
 
@@ -22,6 +26,7 @@ fun CityEditableText(modifier: Modifier = Modifier, notInit: Boolean = false) {
         value = text.value,
         onValueChange = { text.value = it.uppercase() },
         singleLine = true,
+        enabled = enabled,
         modifier = modifier.onFocusChanged {
             if (!it.isFocused && !notInit) {
                 Toast.makeText(context, "merge", Toast.LENGTH_SHORT).show()

@@ -51,7 +51,7 @@ fun MainScreenContent() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                CityEditableText(modifier = Modifier.clearFocusOnKeyboardDismiss())
+                CityEditableText(modifier = Modifier.clearFocusOnKeyboardDismiss(), enabled = true)
             }
             Text("Sunny", fontSize = 18.sp)
             Image(
