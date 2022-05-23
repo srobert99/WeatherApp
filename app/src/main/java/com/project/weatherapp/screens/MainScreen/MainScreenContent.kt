@@ -1,4 +1,4 @@
-package com.project.weatherapp.Screens.MainScreen
+package com.project.weatherapp.screens.MainScreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,16 +19,16 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.project.weatherapp.R
 import com.project.weatherapp.commons.CityEditableText
 import com.project.weatherapp.commons.clearFocusOnKeyboardDismiss
 
 
 @Composable
-fun MainScreenContent() {
+fun MainScreenContent(navController: NavController) {
     val measurementResource = remember { mutableStateOf(R.string.celsius_measurement) }
     val measurement = stringResource(id = measurementResource.value)
 
@@ -78,7 +78,8 @@ fun MainScreenContent() {
         }
         MainScreenBottomBar(
             modifier = Modifier.align(Alignment.BottomCenter),
-            measurementResource = measurementResource.value
+            measurementResource = measurementResource.value,
+            navController = navController
         )
     }
 }
@@ -89,9 +90,3 @@ private fun changeMeasurement(currentMeasurement: Int): Int =
     } else {
         R.string.celsius_measurement
     }
-
-@Composable
-@Preview
-private fun PreviewMainScreen() {
-    MainScreenContent()
-}

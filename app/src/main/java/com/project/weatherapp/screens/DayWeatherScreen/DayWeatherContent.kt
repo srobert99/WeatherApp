@@ -1,4 +1,4 @@
-package com.project.weatherapp.Screens.DayWeatherScreen
+package com.project.weatherapp.screens.DayWeatherScreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,7 +24,6 @@ import com.project.weatherapp.commons.CityEditableText
 
 @Composable
 fun DayWeatherContent() {
-
     val measurementResource = remember { mutableStateOf(R.string.celsius_measurement) }
     val measurement = stringResource(id = measurementResource.value)
     val minTemperatureMock = 13
