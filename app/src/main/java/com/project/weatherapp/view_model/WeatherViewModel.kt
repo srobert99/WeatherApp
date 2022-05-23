@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.project.weatherapp.models.CurrentWeather.CurrentWeather
 import com.project.weatherapp.repository.WeatherRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -32,7 +33,7 @@ class WeatherViewModel(val weatherRepository: WeatherRepository) : ViewModel() {
     }
 
     fun getCityWeatherDetails() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 _response.emit(
                     weatherRepository.getCurrentWeather(

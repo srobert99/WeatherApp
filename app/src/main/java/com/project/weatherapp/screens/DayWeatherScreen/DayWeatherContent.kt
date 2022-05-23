@@ -94,10 +94,10 @@ fun DayWeatherContent() {
                     contentDescription = "Wind Power",
                     modifier = Modifier.size(50.dp)
                 )
-                Text("$wind BAR", fontWeight = FontWeight.Bold)
+                Text("$wind km/h", fontWeight = FontWeight.Bold)
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("$pressure ALF", fontWeight = FontWeight.Bold)
+                Text("$pressure hPa", fontWeight = FontWeight.Bold)
                 Image(
                     painterResource(id = R.drawable.pressure),
                     contentDescription = "Pressure",

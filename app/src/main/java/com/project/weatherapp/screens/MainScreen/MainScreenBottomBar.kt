@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.project.weatherapp.R
+import com.project.weatherapp.models.WeekWeatherMock.DayOfWeekWeatherMock
 
 @Composable
 fun MainScreenBottomBar(
@@ -32,7 +33,15 @@ private fun MainScreenBottomBarContent(
     @StringRes measurementResource: Int,
     navController: NavController
 ) {
-    val list = listOf("a", "b", "c", "d", "e", "f", "g")
+    val listOfDayOfTheWeekWeatherMock = listOf(
+        DayOfWeekWeatherMock("WED", 20, 15, 25, "23", ""),
+        DayOfWeekWeatherMock("THU", 22, 18, 26, "20", "30"),
+        DayOfWeekWeatherMock("FRI", 25, 13, 29, "22", "30"),
+        DayOfWeekWeatherMock("SAT", 19, 12, 20, "28", "30"),
+        DayOfWeekWeatherMock("SUN", 22, 11, 24, "29", "30"),
+        DayOfWeekWeatherMock("MON", 24, 10, 28, "22", "30"),
+        DayOfWeekWeatherMock("TUE", 19, 13, 22, "30", "30"),
+    )
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -40,10 +49,11 @@ private fun MainScreenBottomBarContent(
             .horizontalScroll(rememberScrollState()),
         horizontalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        for (item in list) {
+        for (item in listOfDayOfTheWeekWeatherMock) {
             MainScreenBottomBarItem(
                 measurementResource = measurementResource,
-                navController = navController
+                navController = navController,
+                dayOfWeekWeather = item
             )
         }
     }
@@ -53,26 +63,34 @@ private fun MainScreenBottomBarContent(
 @Composable
 private fun MainScreenBottomBarItem(
     @StringRes measurementResource: Int = R.string.celsius_measurement,
-    navController: NavController
+    navController: NavController,
+    dayOfWeekWeather: DayOfWeekWeatherMock
 ) {
     val measurement = stringResource(id = measurementResource)
     Card(
         backgroundColor = Color.Transparent,
         elevation = 0.dp,
         border = BorderStroke(2.dp, color = Color.White),
-        modifier = Modifier.clickable { navController.navigate("DayDescriptionScreen") }
+        modifier = Modifier
+            .clickable { navController.navigate("DayDescriptionScreen") }
+            .width(100.dp)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(10.dp)
         ) {
+            Text(text = dayOfWeekWeather.dayOfWeek, fontSize = 20.sp, fontWeight = FontWeight.Bold)
             Image(
                 painter = painterResource(id = R.drawable.sunny_weather_icon),
-                modifier = Modifier.size(80.dp),
+                modifier = Modifier.size(50.dp),
                 contentDescription = "weather icon"
             )
-            Row() {
-                Text("13$measurement", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            Row {
+                Text(
+                    "${dayOfWeekWeather.temperature} $measurement",
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold
+                )
             }
         }
     }

@@ -7,7 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.project.weatherapp.di.appModules
 import com.project.weatherapp.di.weatherViewModel
-import com.project.weatherapp.screens.MainScreen.MainScreen
+import com.project.weatherapp.screens.MainScreen.MainNavigation
 import com.project.weatherapp.ui.theme.WeatherAppTheme
 import com.project.weatherapp.view_model.WeatherViewModel
 import org.koin.android.ext.koin.androidContext
@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             navHostController = rememberNavController()
             WeatherAppTheme {
-                MainScreen(navController = navHostController, weatherViewModel)
+                MainNavigation(mainNavController = navHostController, weatherViewModel)
             }
         }
     }
