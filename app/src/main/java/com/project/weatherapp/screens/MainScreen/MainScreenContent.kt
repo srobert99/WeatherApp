@@ -8,9 +8,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CompareArrows
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -29,9 +27,13 @@ import com.project.weatherapp.view_model.WeatherViewModel
 
 
 @Composable
-fun MainScreenContent(navController: NavController, weatherViewModel: WeatherViewModel) {
+fun MainScreenContent(
+    navController: NavController,
+    weatherViewModel: WeatherViewModel,
+) {
     val measurementResource = remember { mutableStateOf(R.string.celsius_measurement) }
     val measurement = stringResource(id = measurementResource.value)
+    val currentWeather by weatherViewModel.currentCityWeatherDetails.collectAsState()
 
     Box(
         modifier = Modifier
@@ -66,7 +68,7 @@ fun MainScreenContent(navController: NavController, weatherViewModel: WeatherVie
                 modifier = Modifier.padding(start = 40.dp)
             ) {
                 Text(
-                    "3 $measurement",
+                    "${currentWeather?.main?.temp} $measurement",
                     fontSize = 30.sp,
                     fontWeight = FontWeight.Bold
                 )

@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             navHostController = rememberNavController()
             WeatherAppTheme {
-                MainScreen(mainNavController = navHostController, weatherViewModel)
+                MainScreen(navController = navHostController, weatherViewModel)
             }
         }
     }

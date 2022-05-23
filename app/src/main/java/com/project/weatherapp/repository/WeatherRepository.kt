@@ -8,7 +8,4 @@ class WeatherRepository(private val retrofitInstance: RetrofitInstance) {
 
     suspend fun getCurrentWeather(location: String, metric: String): Response<CurrentWeather> =
         retrofitInstance.weatherApi.getCurrentWeather(location, metric)
-
-    fun getNumber(): Int = (1..3).random()
-
 }

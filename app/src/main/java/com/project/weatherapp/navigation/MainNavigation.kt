@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.project.weatherapp.screens.DayWeatherScreen.DayWeatherContent
-import com.project.weatherapp.screens.MainScreen.MainScreenContent
+import com.project.weatherapp.screens.MainScreen.MainScreen
 import com.project.weatherapp.view_model.WeatherViewModel
 
 @Composable
@@ -18,7 +18,7 @@ fun MainNavGraph(
         startDestination = "MainScreen"
     ) {
         composable("MainScreen") {
-            MainScreenContent(navController,weatherViewModel)
+            MainScreen(navController, weatherViewModel)
         }
         composable("DayDescriptionScreen") {
             DayWeatherContent()
