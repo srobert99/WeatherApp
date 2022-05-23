@@ -25,10 +25,11 @@ import androidx.navigation.NavController
 import com.project.weatherapp.R
 import com.project.weatherapp.commons.CityEditableText
 import com.project.weatherapp.commons.clearFocusOnKeyboardDismiss
+import com.project.weatherapp.view_model.WeatherViewModel
 
 
 @Composable
-fun MainScreenContent(navController: NavController) {
+fun MainScreenContent(navController: NavController, weatherViewModel: WeatherViewModel) {
     val measurementResource = remember { mutableStateOf(R.string.celsius_measurement) }
     val measurement = stringResource(id = measurementResource.value)
 

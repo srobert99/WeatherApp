@@ -3,7 +3,7 @@ package data_source
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object RetrofitInstance {
+class RetrofitInstance() {
 
     val weatherApi: WeatherDataSource by lazy {
         Retrofit.Builder()
@@ -13,7 +13,9 @@ object RetrofitInstance {
             .create(WeatherDataSource::class.java)
     }
 
-    private const val baseUrl = "https://community-open-weather-map.p.rapidapi.com"
+    companion object {
+        private const val baseUrl = "https://community-open-weather-map.p.rapidapi.com"
+    }
 }
 
 
