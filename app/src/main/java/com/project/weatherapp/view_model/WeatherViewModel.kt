@@ -45,7 +45,7 @@ class WeatherViewModel(val weatherRepository: WeatherRepository) : ViewModel() {
                     if (it!!.isSuccessful) {
                         _currentCityWeatherDetails.value = it.body()!!
                     } else {
-                        _error.value = it.errorBody().toString()
+                        _error.value = it.message().toString()
                     }
                 }
             } catch (e: Exception) {
@@ -54,12 +54,12 @@ class WeatherViewModel(val weatherRepository: WeatherRepository) : ViewModel() {
         }
     }
 
-    fun switchMeasurement() {
-        if (_currentSelectedMeasurement.value == "metric") {
-            _currentSelectedMeasurement.value = "imperial"
-        } else {
-            _currentSelectedMeasurement.value = "metric"
-        }
+    fun onCityNameChanged(newText: String) {
+        _currentCity.value = newText
+    }
+
+    fun resetErrorMessage() {
+        _error.value = ""
     }
 
 }

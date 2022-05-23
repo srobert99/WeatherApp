@@ -1,5 +1,6 @@
 package com.project.weatherapp.screens.MainScreen
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -13,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -34,6 +36,14 @@ fun MainScreenContent(
     val measurementResource = remember { mutableStateOf(R.string.celsius_measurement) }
     val measurement = stringResource(id = measurementResource.value)
     val currentWeather by weatherViewModel.currentCityWeatherDetails.collectAsState()
+    val currentCity by weatherViewModel.currentCity.collectAsState()
+    val error by weatherViewModel.error.collectAsState()
+    val context = LocalContext.current
+
+    if(error.isNotEmpty()){
+        Toast.makeText(context,error,Toast.LENGTH_SHORT).show()
+        weatherViewModel.resetErrorMessage()
+    }
 
     Box(
         modifier = Modifier
@@ -54,7 +64,12 @@ fun MainScreenContent(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                CityEditableText(modifier = Modifier.clearFocusOnKeyboardDismiss(), enabled = true)
+                CityEditableText(
+                    modifier = Modifier.clearFocusOnKeyboardDismiss(),
+                    currentText = currentCity,
+                    onTextChange = { weatherViewModel.onCityNameChanged(it) },
+                    onFocusChanged = { weatherViewModel.getCityWeatherDetails() }
+                )
             }
             Text("Sunny", fontSize = 18.sp)
             Image(
@@ -68,7 +83,7 @@ fun MainScreenContent(
                 modifier = Modifier.padding(start = 40.dp)
             ) {
                 Text(
-                    "${currentWeather?.main?.temp} $measurement",
+                    "${currentWeather?.main?.temp?.toInt()} $measurement",
                     fontSize = 30.sp,
                     fontWeight = FontWeight.Bold
                 )
