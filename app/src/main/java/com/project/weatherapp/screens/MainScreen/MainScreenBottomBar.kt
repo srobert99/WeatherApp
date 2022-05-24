@@ -1,6 +1,5 @@
 package com.project.weatherapp.screens.MainScreen
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
@@ -16,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.project.weatherapp.R
+import com.project.weatherapp.commons.celsiusToFehrenheit
 import com.project.weatherapp.models.WeekWeatherMock.DayOfWeekWeatherMock
 import com.project.weatherapp.screens.Screen
 
@@ -23,25 +23,25 @@ import com.project.weatherapp.screens.Screen
 fun MainScreenBottomBar(
     modifier: Modifier = Modifier,
     navController: NavController,
-    @StringRes measurementResource: Int = R.string.celsius_measurement
+    measurement: String
 ) {
-    MainScreenBottomBarContent(modifier, measurementResource, navController)
+    MainScreenBottomBarContent(modifier, measurement, navController)
 }
 
 @Composable
 private fun MainScreenBottomBarContent(
     modifier: Modifier,
-    @StringRes measurementResource: Int,
+    measurement: String,
     navController: NavController
 ) {
     val listOfDayOfTheWeekWeatherMock = listOf(
-        DayOfWeekWeatherMock("WED", 20, 15, 25, "23", ""),
-        DayOfWeekWeatherMock("THU", 22, 18, 26, "20", "30"),
-        DayOfWeekWeatherMock("FRI", 25, 13, 29, "22", "30"),
-        DayOfWeekWeatherMock("SAT", 19, 12, 20, "28", "30"),
-        DayOfWeekWeatherMock("SUN", 22, 11, 24, "29", "30"),
-        DayOfWeekWeatherMock("MON", 24, 10, 28, "22", "30"),
-        DayOfWeekWeatherMock("TUE", 19, 13, 22, "30", "30"),
+        DayOfWeekWeatherMock(1, "WED", 20, 15, 25, "23", ""),
+        DayOfWeekWeatherMock(2, "THU", 22, 18, 26, "20", "30"),
+        DayOfWeekWeatherMock(3, "FRI", 25, 13, 29, "22", "30"),
+        DayOfWeekWeatherMock(4, "SAT", 10, 9, 20, "28", "30"),
+        DayOfWeekWeatherMock(5, "SUN", 22, 11, 24, "29", "30"),
+        DayOfWeekWeatherMock(6, "MON", 24, 10, 28, "22", "30"),
+        DayOfWeekWeatherMock(7, "TUE", 5, 0, 12, "30", "30"),
     )
     Row(
         modifier = modifier
@@ -52,7 +52,7 @@ private fun MainScreenBottomBarContent(
     ) {
         for (item in listOfDayOfTheWeekWeatherMock) {
             MainScreenBottomBarItem(
-                measurementResource = measurementResource,
+                measurement = measurement,
                 navController = navController,
                 dayOfWeekWeather = item
             )
@@ -60,14 +60,24 @@ private fun MainScreenBottomBarContent(
     }
 }
 
-
 @Composable
 private fun MainScreenBottomBarItem(
-    @StringRes measurementResource: Int = R.string.celsius_measurement,
+    measurement: String,
     navController: NavController,
     dayOfWeekWeather: DayOfWeekWeatherMock
 ) {
-    val measurement = stringResource(id = measurementResource)
+    val isConvertedToFahrenheit =
+        measurement == stringResource(id = R.string.fahrenheit_measurement)
+    var weatherIconResource = R.drawable.sunny_weather_icon
+
+    when (dayOfWeekWeather.temperature) {
+        in (25..30) -> weatherIconResource = R.drawable.hot_weather_icon
+        in (15..24) -> weatherIconResource = R.drawable.sunny_weather_icon
+        in (9..14) -> weatherIconResource = R.drawable.cloudy_weather_icon
+        in (1..8) -> weatherIconResource = R.drawable.rainy_weather_icon
+        in (-99..0) -> weatherIconResource = R.drawable.snowy_weather_icon
+    }
+
     Card(
         backgroundColor = Color.Transparent,
         elevation = 0.dp,
@@ -82,13 +92,13 @@ private fun MainScreenBottomBarItem(
         ) {
             Text(text = dayOfWeekWeather.dayOfWeek, fontSize = 20.sp, fontWeight = FontWeight.Bold)
             Image(
-                painter = painterResource(id = R.drawable.sunny_weather_icon),
+                painter = painterResource(weatherIconResource),
                 modifier = Modifier.size(50.dp),
                 contentDescription = "weather icon"
             )
             Row {
                 Text(
-                    "${dayOfWeekWeather.temperature} $measurement",
+                    "${dayOfWeekWeather.temperature.celsiusToFehrenheit(isConvertedToFahrenheit)} $measurement",
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Bold
                 )

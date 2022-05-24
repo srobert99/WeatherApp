@@ -24,6 +24,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.project.weatherapp.R
 import com.project.weatherapp.commons.CityEditableText
+import com.project.weatherapp.commons.capitalizeWords
+import com.project.weatherapp.commons.celsiusToFehrenheit
 import com.project.weatherapp.commons.clearFocusOnKeyboardDismiss
 import com.project.weatherapp.view_model.WeatherViewModel
 
@@ -33,15 +35,20 @@ fun MainScreenContent(
     navController: NavController,
     weatherViewModel: WeatherViewModel,
 ) {
-    val measurementResource = remember { mutableStateOf(R.string.celsius_measurement) }
-    val measurement = stringResource(id = measurementResource.value)
     val currentWeather by weatherViewModel.currentCityWeatherDetails.collectAsState()
     val currentCity by weatherViewModel.currentCity.collectAsState()
     val error by weatherViewModel.error.collectAsState()
+
     val context = LocalContext.current
     val weatherDescription = currentWeather?.weather?.first()?.description ?: "Status not found"
-    val temperature = currentWeather?.main?.temp?.toInt() ?: -1
+    val temperature = (currentWeather?.main?.temp?.toInt() ?: -1)
     var weatherIconResource = R.drawable.sunny_weather_icon
+    val isFahrenheitMeasurementEnabled = remember { mutableStateOf(false) }
+    val measurement =
+        stringResource(
+            id = if (isFahrenheitMeasurementEnabled.value) R.string.fahrenheit_measurement
+            else R.string.celsius_measurement
+        )
 
     when (temperature) {
         in (25..30) -> weatherIconResource = R.drawable.hot_weather_icon
@@ -94,12 +101,12 @@ fun MainScreenContent(
                 modifier = Modifier.padding(start = 40.dp)
             ) {
                 Text(
-                    "${currentWeather?.main?.temp?.toInt()} $measurement",
+                    "${temperature.celsiusToFehrenheit(isFahrenheitMeasurementEnabled.value)} $measurement",
                     fontSize = 30.sp,
                     fontWeight = FontWeight.Bold
                 )
                 IconButton(onClick = {
-                    measurementResource.value = changeMeasurement(measurementResource.value)
+                    isFahrenheitMeasurementEnabled.value = !(isFahrenheitMeasurementEnabled.value)
                 }) {
                     Icon(Icons.Filled.CompareArrows, "Switch measurement button")
                 }
@@ -107,22 +114,8 @@ fun MainScreenContent(
         }
         MainScreenBottomBar(
             modifier = Modifier.align(Alignment.BottomCenter),
-            measurementResource = measurementResource.value,
+            measurement = measurement,
             navController = navController
         )
     }
 }
-
-private fun String.capitalizeWords(): String =
-    split(" ").joinToString(" ") {
-        it.replaceFirstChar { char ->
-            char.uppercase()
-        }
-    }
-
-private fun changeMeasurement(currentMeasurement: Int): Int =
-    if (currentMeasurement == R.string.celsius_measurement) {
-        R.string.fahrenheit_measurement
-    } else {
-        R.string.celsius_measurement
-    }
