@@ -16,19 +16,39 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.project.weatherapp.R
+import com.project.weatherapp.commons.listOfDayOfTheWeekWeatherMock
+import com.project.weatherapp.models.WeekWeatherMock.DayOfWeekWeatherMock
+import com.project.weatherapp.view_model.WeatherViewModel
 
 @Composable
-fun DayWeatherContent() {
+fun DayWeatherContent(dayId: String, weatherViewModel: WeatherViewModel) {
+    val cityName = weatherViewModel.currentCity.value
+
+    val currentDayWeather = if (dayId.toInt() > 10) {
+        val currentApiWeather = weatherViewModel.currentCityWeatherDetails.value
+        DayOfWeekWeatherMock(
+            id = 99,
+            dayOfWeek = "TUES",
+            temperature = currentApiWeather!!.main.temp.toInt(),
+            minTemperature = currentApiWeather.main.tempmin.toInt(),
+            maxTemperature = currentApiWeather.main.temp_max.toInt(),
+            windPower = currentApiWeather.wind.speed.toString(),
+            pressure = currentApiWeather.clouds.all.toString()
+        )
+    } else {
+        listOfDayOfTheWeekWeatherMock[dayId.toInt()]
+    }
+
     val measurementResource = remember { mutableStateOf(R.string.celsius_measurement) }
     val measurement = stringResource(id = measurementResource.value)
-    val minTemperatureMock = 13
-    val maxTemperatureMock = 22
-    val pressure = 300
-    val wind = 23
+    val temperature = currentDayWeather.temperature
+    val minTemperatureMock = currentDayWeather.minTemperature
+    val maxTemperatureMock = currentDayWeather.maxTemperature
+    val pressure = currentDayWeather.pressure
+    val wind = currentDayWeather.windPower
 
     Column(
         modifier = Modifier
@@ -46,7 +66,7 @@ fun DayWeatherContent() {
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-            Text("SIBIU", fontSize = 25.sp, fontWeight = FontWeight.Bold)
+            Text(cityName, fontSize = 25.sp, fontWeight = FontWeight.Bold)
         }
         Text("Sunny", fontSize = 18.sp)
         Image(
@@ -56,7 +76,7 @@ fun DayWeatherContent() {
             modifier = Modifier.size(200.dp)
         )
         Text(
-            "3 $measurement",
+            "$temperature $measurement",
             fontSize = 30.sp,
             fontWeight = FontWeight.Bold
         )
@@ -105,11 +125,4 @@ fun DayWeatherContent() {
             }
         }
     }
-}
-
-
-@Preview
-@Composable
-private fun previewDayWeatherContent() {
-    DayWeatherContent()
 }

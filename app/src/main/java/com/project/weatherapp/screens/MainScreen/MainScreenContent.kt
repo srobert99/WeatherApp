@@ -3,6 +3,7 @@ package com.project.weatherapp.screens.MainScreen
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -27,6 +28,7 @@ import com.project.weatherapp.commons.CityEditableText
 import com.project.weatherapp.commons.capitalizeWords
 import com.project.weatherapp.commons.celsiusToFehrenheit
 import com.project.weatherapp.commons.clearFocusOnKeyboardDismiss
+import com.project.weatherapp.screens.Screen
 import com.project.weatherapp.view_model.WeatherViewModel
 
 
@@ -78,7 +80,8 @@ fun MainScreenContent(
         Column(
             modifier = Modifier
                 .align(Alignment.Center)
-                .padding(bottom = 150.dp),
+                .padding(bottom = 150.dp)
+                .clickable { navController.navigate(Screen.DayWeatherDetailsScreen.route + "/99") },
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {

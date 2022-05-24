@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.project.weatherapp.R
 import com.project.weatherapp.commons.celsiusToFehrenheit
+import com.project.weatherapp.commons.listOfDayOfTheWeekWeatherMock
 import com.project.weatherapp.models.WeekWeatherMock.DayOfWeekWeatherMock
 import com.project.weatherapp.screens.Screen
 
@@ -34,15 +35,6 @@ private fun MainScreenBottomBarContent(
     measurement: String,
     navController: NavController
 ) {
-    val listOfDayOfTheWeekWeatherMock = listOf(
-        DayOfWeekWeatherMock(1, "WED", 20, 15, 25, "23", ""),
-        DayOfWeekWeatherMock(2, "THU", 22, 18, 26, "20", "30"),
-        DayOfWeekWeatherMock(3, "FRI", 25, 13, 29, "22", "30"),
-        DayOfWeekWeatherMock(4, "SAT", 10, 9, 20, "28", "30"),
-        DayOfWeekWeatherMock(5, "SUN", 22, 11, 24, "29", "30"),
-        DayOfWeekWeatherMock(6, "MON", 24, 10, 28, "22", "30"),
-        DayOfWeekWeatherMock(7, "TUE", 5, 0, 12, "30", "30"),
-    )
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -83,7 +75,7 @@ private fun MainScreenBottomBarItem(
         elevation = 0.dp,
         border = BorderStroke(2.dp, color = Color.White),
         modifier = Modifier
-            .clickable { navController.navigate(Screen.DayWeatherDetailsScreen.route) }
+            .clickable { navController.navigate(Screen.DayWeatherDetailsScreen.route + "/${dayOfWeekWeather.id}") }
             .width(100.dp)
     ) {
         Column(

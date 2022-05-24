@@ -21,8 +21,9 @@ fun MainNavGraph(
         composable(Screen.MainScreen.route) {
             MainScreen(navController, weatherViewModel)
         }
-        composable(Screen.DayWeatherDetailsScreen.route) {
-            DayWeatherContent()
+        composable(Screen.DayWeatherDetailsScreen.route + "/{day_id}") {
+            val dayId = it.arguments?.getString("day_id") ?: "null"
+            DayWeatherContent(dayId, weatherViewModel)
         }
     }
 }
