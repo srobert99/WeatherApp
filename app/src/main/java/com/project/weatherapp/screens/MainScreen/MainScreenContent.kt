@@ -39,9 +39,20 @@ fun MainScreenContent(
     val currentCity by weatherViewModel.currentCity.collectAsState()
     val error by weatherViewModel.error.collectAsState()
     val context = LocalContext.current
+    val weatherDescription = currentWeather?.weather?.first()?.description ?: "Status not found"
+    val temperature = currentWeather?.main?.temp?.toInt() ?: -1
+    var weatherIconResource = R.drawable.sunny_weather_icon
 
-    if(error.isNotEmpty()){
-        Toast.makeText(context,error,Toast.LENGTH_SHORT).show()
+    when (temperature) {
+        in (25..30) -> weatherIconResource = R.drawable.hot_weather_icon
+        in (15..24) -> weatherIconResource = R.drawable.sunny_weather_icon
+        in (9..14) -> weatherIconResource = R.drawable.cloudy_weather_icon
+        in (1..8) -> weatherIconResource = R.drawable.rainy_weather_icon
+        in (-99..0) -> weatherIconResource = R.drawable.snowy_weather_icon
+    }
+
+    if (error.isNotEmpty()) {
+        Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
         weatherViewModel.resetErrorMessage()
     }
 
@@ -71,9 +82,9 @@ fun MainScreenContent(
                     onFocusChanged = { weatherViewModel.getCityWeatherDetails() }
                 )
             }
-            Text("Sunny", fontSize = 18.sp)
+            Text(weatherDescription.capitalizeWords(), fontSize = 18.sp)
             Image(
-                painter = painterResource(id = R.drawable.sunny_weather_icon),
+                painter = painterResource(weatherIconResource),
                 contentDescription = "icon weather",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.size(200.dp)
@@ -101,6 +112,13 @@ fun MainScreenContent(
         )
     }
 }
+
+private fun String.capitalizeWords(): String =
+    split(" ").joinToString(" ") {
+        it.replaceFirstChar { char ->
+            char.uppercase()
+        }
+    }
 
 private fun changeMeasurement(currentMeasurement: Int): Int =
     if (currentMeasurement == R.string.celsius_measurement) {
